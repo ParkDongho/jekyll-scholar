@@ -2,94 +2,85 @@ Jekyll-Scholar
 ==============
 [![CI](https://github.com/inukshuk/jekyll-scholar/actions/workflows/ci.yml/badge.svg)](https://github.com/inukshuk/jekyll-scholar/actions/workflows/ci.yml)
 
-Jekyll-Scholar is for all the academic bloggers out there. It is a set of
-extensions to [Jekyll](http://jekyllrb.com/), the awesome, blog aware, static
-site generator; it formats your bibliographies and reading lists for the web
-and gives your blog posts citation super-powers.
+Jekyll-Scholar는 모든 학술 블로거들을 위한 것입니다. 이는 블로그 지향의 정적 사이트 생성기인 [Jekyll](http://jekyllrb.com/)에 대한 확장 기능 세트로, 웹용 참고 문헌 및 독서 목록을 형식화하고 블로그 게시물에 인용 기능을 부여합니다.
 
-Already using Jekyll-Scholar and interested to help out? Please get in touch with us if you would like to become a maintainer!
+이미 Jekyll-Scholar를 사용 중이며 도움이 되고 싶으신가요? 유지 관리자가 되고 싶으시면 저희에게 연락해 주세요!
 
-Installation
-------------
+설치
+----
 
-    $ [sudo] gem install jekyll-scholar
+```
+$ [sudo] gem install jekyll-scholar
+```
 
-Or add it to your `Gemfile`:
+또는 `Gemfile`에 추가하세요:
 
-    gem 'jekyll-scholar', group: :jekyll_plugins
+```
+gem 'jekyll-scholar', group: :jekyll_plugins
+```
 
 ### Github Pages
 
-Note that it is not possible to use this plugin with the
-  [default Github pages workflow](https://help.github.com/articles/using-jekyll-with-pages/).
-Github does not allow any but a few select plugins to run for security reasons,
-and Jekyll-Scholar is not among them.
-You will have to generate your site locally and push the results to the `master` resp. `gh-pages`
-branch of your site repository.
-You can keep sources, configuration and plugins in a separate branch; see e.g.
-  [here](http://davidensinger.com/2013/07/automating-jekyll-deployment-to-github-pages-with-rake/)
-for details.
+이 플러그인을 [기본 Github 페이지 워크플로우](https://help.github.com/articles/using-jekyll-with-pages/)와 함께 사용할 수 없음을 유의하세요.
+Github은 보안상의 이유로 몇몇 선택된 플러그인만 실행을 허용하며, Jekyll-Scholar는 그 중 하나가 아닙니다.
+사이트를 로컬에서 생성하고 결과를 사이트 저장소의 `master` 또는 `gh-pages` 브랜치로 푸시해야 합니다.
+소스, 설정 및 플러그인은 별도의 브랜치에 보관할 수 있습니다; 예를 들어 [여기](http://davidensinger.com/2013/07/automating-jekyll-deployment-to-github-pages-with-rake/)를 참조하세요.
 
-Alternatively, you can use a [Github Actions](https://github.com/features/actions) called [jekyll-action](https://github.com/helaili/jekyll-action) to deploy your site to Github Pages
+대안으로 [Github Actions](https://github.com/features/actions)에서 [jekyll-action](https://github.com/helaili/jekyll-action)을 사용하여 사이트를 Github Pages에 배포할 수 있습니다.
 
-Usage
+사용법
 -----
 
-Install and setup a new [Jekyll](http://jekyllrb.com/) directory (see the
-[Jekyll-Wiki](https://github.com/mojombo/jekyll/wiki/Usage) for detailed
-instructions). To enable the Jekyll-Scholar add the following statement
-to a file in your plugin directory (e.g., to `_plugins/ext.rb`):
+새로운 [Jekyll](http://jekyllrb.com/) 디렉터리를 설치하고 설정하세요 (자세한 지침은 [Jekyll-Wiki](https://github.com/mojombo/jekyll/wiki/Usage)를 참조하세요). Jekyll-Scholar를 활성화하려면 플러그인 디렉터리의 파일(예: `_plugins/ext.rb`)에 다음 문을 추가하세요:
 
-    require 'jekyll/scholar'
+```
+require 'jekyll/scholar'
+```
 
-Alternatively, add `jekyll-scholar` to your `gem` list in your Jekyll
-configuration:
+대안으로 Jekyll 설정의 `gem` 목록에 `jekyll-scholar`를 추가하세요:
 
-    plugins: ['jekyll/scholar']
+```
+plugins: ['jekyll/scholar']
+```
 
-### Configuration
+### 설정
 
-In your Jekyll configuration file you can adjust the Jekyll-Scholar settings
-using the `scholar` key. For example, the following sets the bibliography style
-to `modern-language-association`.
+Jekyll 설정 파일에서 `scholar` 키를 사용하여 Jekyll-Scholar 설정을 조정할 수 있습니다. 예를 들어 다음은 참고 문헌 스타일을 `modern-language-association`으로 설정합니다.
 
-    scholar:
-      style: modern-language-association
+```
+scholar:
+    style: modern-language-association
+```
 
-The table below describes some commonly used configuration options. For a
-description of all options and their defaults, see
-[`defaults.rb`](/lib/jekyll/scholar/defaults.rb).
+아래 표는 일반적으로 사용되는 설정 옵션을 설명합니다. 모든 옵션과 기본값에 대한 설명은 [`defaults.rb`](/lib/jekyll/scholar/defaults.rb)를 참조하세요.
 
-| Option | Default | Description |
+| 옵션 | 기본값 | 설명 |
 |--------|---------|-------------|
-| `style` | `apa` | Indicates the style used for the bibliography and citations. You can use any style that ships with [CiteProc-Ruby](https://github.com/inukshuk/citeproc-ruby) by name (e.g., apa, chicago-fullnote-bibliography) which is usually the filename as seen [here](https://github.com/citation-style-language/styles) without the `.csl` ending; note that you have to use `dependent/style` if you want to use one from that directory. Alternatively you can add a link to any CSL  style (e.g., you could link to any of the styles available at the official [CSL style repository](https://github.com/citation-style-language/styles)). |
-| `locale` | `en` | Defines what language to use when formatting your references (this typically applies to localized terms, e.g., 'Eds.' for editors in English). |
-| `source` | `./_bibliography` |  Indicates where your bibliographies are stored. |
-| `bibliography` | `references.bib` | Indicates the name of your default bibliography. For best results, please ensure that your bibliography is encoded as ASCII or UTF-8. A string that contains a `*` will be passed to `Dir::glob`, so `**/*.bib{,tex}` will find all files named `*.bib` and `*.bibtex` under `source`.  |
-| `allow_locale_overrides` | `false` | When `true`, allows the `language` entry in the BibTex to override the `locale` setting for individual entries. When the language is missing it will revert back to `locale`. The language value should be encoded using the two-letter [ISO 639-1](https://www.loc.gov/standards/iso639-2/php/code_list.php) standard. Ex. English = 'en', Spanish = 'es'. |
-| `sort_by` | `none` | Specifies if and how bibliography entries are sorted. Entries can be sorted on multiple fields, by using a list of keys, e.g. `year,month`. Ordering can be specified per sort level, e.g. `order: descending,ascending` will sort the years descending, but per year the months are ascending. If there are more sort keys than order directives, the last order entry is used for the remaining keys. |
-| `order` | `ascending` | Specifies order bibliography entries are sorted in. Can be `ascending` or descending. Ordering can be specified per sort level, e.g. `descending,ascending` will sort in descending on the first key then ascending order on the second key. If there are more sort keys than order directives, the last order entry is used for the remaining keys. |
-| `group_by` | `none` | Specifies how bibliography items are grouped. Grouping can be multi-level, e.g. `type, year` groups entries per publication type, and within those groups per year. |
-| `group_order` | `ascending` |  Ordering for groups is specified in the same way as the sort order. Publication types -- specified with group key `type`, can be ordered by adding `type_order` to the configuration. For example, `type_order: [article,techreport]` lists journal articles before technical reports. Types not mentioned in `type_order` are considered smaller than types that are mentioned. Types can be merge in one group using the `type_aliases` setting. By default `phdthesis` and `mastersthesis` are grouped as `thesis`. By using, for example, `type_aliases: { inproceedings: article}`, journal and conference articles appear in a single group. The display names for entry types are specified with `type_names`. Names for common types are provided, but they can be extended or overridden. For example, the default name for `article` is *Journal Articles*, but it can be changed to *Papers* using `type_names: { article: Papers }`. |
-| `bibtex_filters` | `latex,smallcaps,superscript` | Configures which [BibTeX-Ruby](https://github.com/inukshuk/bibtex-ruby) formatting filters values of entries should be passed through. The default `latex` filter converts LaTeX character escapes into unicode, `smallcaps` converts the `\textsc` command into a HTML `<font style=\"font-variant: small-caps\">` tag, and `superscript` which converts the `\textsuperscript` command into a HTML `<sup>` tag. |
-| `raw_bibtex_filters` | ` ` | Configures which [BibTeX-Ruby](https://github.com/inukshuk/bibtex-ruby) formatting filters the raw BiBTeX entry (i.e. that available through `{{ entry.bibtex }}`) should be passed through. This can be used to e.g. strip excess newlines by using the `linebreaks` filter. |
+| `style` | `apa` | 참고 문헌과 인용에 사용되는 스타일을 나타냅니다. [CiteProc-Ruby](https://github.com/inukshuk/citeproc-ruby)와 함께 제공되는 스타일을 이름으로 사용할 수 있습니다(예: apa, chicago-fullnote-bibliography). 이는 보통 [여기](https://github.com/citation-style-language/styles)에서 `.csl` 확장자 없이 파일 이름으로 볼 수 있습니다; `dependent/style` 디렉토리에서 하나를 사용하려면 `dependent/style`을 사용해야 합니다. 대안으로, 어떤 CSL 스타일에든 링크를 추가할 수 있습니다(예: 공식 [CSL 스타일 저장소](https://github.com/citation-style-language/styles)에서 사용 가능한 스타일에 링크할 수 있습니다). |
+| `locale` | `en` | 참고 문헌을 형식화할 때 사용할 언어를 정의합니다(이는 보통 지역화된 용어에 적용됩니다. 예: 영어에서 편집자는 'Eds.'). |
+| `source` | `./_bibliography` | 참고 문헌이 저장되는 위치를 나타냅니다. |
+| `bibliography` | `references.bib` | 기본 참고 문헌의 이름을 나타냅니다. 최상의 결과를 얻으려면 참고 문헌이 ASCII 또는 UTF-8로 인코딩되었는지 확인하세요. 문자열에 `*`가 포함된 경우 `Dir::glob`에 전달되므로 `**/*.bib{,tex}`은 `source` 아래의 모든 `*.bib` 및 `*.bibtex` 파일을 찾습니다. |
+| `allow_locale_overrides` | `false` | `true`일 때, BibTex의 `language` 항목이 개별 항목에 대해 `locale` 설정을 재정의할 수 있도록 허용합니다. 언어가 없으면 `locale`로 되돌아갑니다. 언어 값은 두 글자의 [ISO 639-1](https://www.loc.gov/standards/iso639-2/php/code_list.php) 표준을 사용하여 인코딩되어야 합니다. 예: 영어 = 'en', 스페인어 = 'es'. |
+| `sort_by` | `none` | 참고 문헌 항목을 정렬할지 여부 및 방법을 지정합니다. 항목은 여러 필드에서 정렬할 수 있으며, 키 목록을 사용하여 정렬할 수 있습니다. 예: `year,month`. 정렬 수준별로 순서를 지정할 수 있습니다. 예: `order: descending,ascending`는 연도를 내림차순으로 정렬하지만 연도별로는 월이 오름차순입니다. 정렬 키가 주문 지시문보다 많으면 마지막 주문 항목이 나머지 키에 사용됩니다. |
+| `order` | `ascending` | 참고 문헌 항목이 정렬되는 순서를 지정합니다. `ascending` 또는 `descending`일 수 있습니다. 정렬 수준별로 순서를 지정할 수 있습니다. 예: `descending,ascending`는 첫 번째 키에서는 내림차순으로, 두 번째 키에서는 오름차순으로 정렬합니다. 정렬 키가 주문 지시문보다 많으면 마지막 주문 항목이 나머지 키에 사용됩니다. |
+| `group_by` | `none` | 참고 문헌 항목이 그룹화되는 방식을 지정합니다. 그룹화는 다단계일 수 있습니다. 예: `type, year`는 출판 유형별로 항목을 그룹화하고, 해당 그룹 내에서 연도별로 그룹화합니다. |
+| `group_order` | `ascending` | 그룹의 정렬은 정렬 순서와 동일한 방식으로 지정됩니다. 출판 유형 - 그룹 키 `type`으로 지정된 출판 유형은 구성에서 `type_order`를 추가하여 정렬할 수 있습니다. 예를 들어, `type_order: [article,techreport]`는 학술지 논문을 기술 보고서 앞에 나열합니다. `type_order`에 언급되지 않은 유형은 언급된 유형보다 작게 간주됩니다. `type_aliases` 설정을 사용하여 여러 유형을 하나의 그룹으로 병합할 수 있습니다. 기본적으로 `phdthesis` 및 `mastersthesis`는 `thesis`로 그룹화됩니다. 예를 들어 `type_aliases: { inproceedings: article}`를 사용하면 학술지 논문과 학회 논문이 단일 그룹에 나타납니다. 항목 유형의 표시 이름은 `type_names`를 사용하여 지정됩니다. 일반적인 유형의 이름이 제공되지만, 확장하거나 재정의할 수 있습니다. 예를 들어, `article`의 기본 이름은 *Journal Articles*이지만, `type_names: { article: Papers }`를 사용하여 *Papers*로 변경할 수 있습니다. |
+| `bibtex_filters` | `latex,smallcaps,superscript` | 항목의 값을 통과시킬 [BibTeX-Ruby](https://github.com/inukshuk/bibtex-ruby) 형식 필터를 구성합니다. 기본 `latex` 필터는 LaTeX 문자 이스케이프를 유니코드로 변환하고, `smallcaps`는 `\textsc` 명령을 HTML `<font style=\"font-variant: small-caps\">` 태그로 변환하며, `superscript`는 `\textsuperscript` 명령을 HTML `<sup>` 태그로 변환합니다. |
+| `raw_bibtex_filters` | ` ` | 원시 BiBTeX 항목(즉, `{{ entry.bibtex }}`를 통해 사용할 수 있는 항목)을 통과시킬 [BibTeX-Ruby](https://github.com/inukshuk/bibtex-ruby) 형식 필터를 구성합니다. 이를 통해 예를 들어 `linebreaks` 필터를 사용하여 과도한 줄 바꿈을 제거할 수 있습니다. |
 
+### 참고 문헌
 
-### Bibliographies
+Jekyll-Scholar를 로드하면 `.bib` 또는 `.bibtex` 확장자를 가진 모든 파일이 Jekyll을 실행할 때 변환됩니다(파일에 YAML 헤더를 추가하는 것을 잊지 마세요). 파일은 일반 HTML 또는 Markdown 및 BibTeX 항목을 포함할
 
-Once you have loaded Jekyll-Scholar, all files with the extension `.bib` or
-`.bibtex` will be converted when you run Jekyll (don't forget to add a YAML
-header to the files); the file can contain regular HTML or Markdown and
-BibTeX entries; the latter will be formatted by Jekyll-Scholar according to
-the citation style and language defined in your configuration file.
+ 수 있습니다. 후자는 Jekyll 설정 파일에 정의된 인용 스타일 및 언어에 따라 Jekyll-Scholar에 의해 형식화됩니다.
 
-For example, if you had a file `bibliography.bib` in your root directory:
+예를 들어, 루트 디렉터리에 `bibliography.bib` 파일이 있는 경우:
 
     ---
     ---
     References
     ==========
-
+    
     @book{ruby,
       title     = {The Ruby Programming Language},
       author    = {Flanagan, David and Matsumoto, Yukihiro},
@@ -97,149 +88,107 @@ For example, if you had a file `bibliography.bib` in your root directory:
       publisher = {O'Reilly Media}
     }
 
-It would be converted to `bibliography.html` with the following content:
+이는 다음 내용으로 `bibliography.html`로 변환됩니다:
 
     <h1 id='references'>References</h1>
-
+    
     <p>Flanagan, D., &#38; Matsumoto, Y. (2008). <i>The Ruby Programming Language</i>. O&#8217;Reilly Media.</p>
 
-This makes it very easy for you to add your bibliography to your Jekyll-powered
-blog or website.
+이로 인해 Jekyll 기반 블로그나 웹사이트에 참고 문헌을 쉽게 추가할 수 있습니다.
 
-If you are using other converters to generate your site, don't worry, you can
-still generate bibliographies using the `bibliography` tag. In your site
-or blog post, simply call:
+다른 변환기를 사용하여 사이트를 생성하는 경우에도 걱정하지 마세요. `bibliography` 태그를 사용하여 참고 문헌을 생성할 수 있습니다. 사이트 또는 블로그 게시물에서 다음과 같이 호출하세요:
 
     {% bibliography %}
 
-This will generate your default bibliography; if you use multiple, you can
-also pass in a name to tell Jekyll-Scholar which bibliography it should render.
+이렇게 하면 기본 참고 문헌이 생성됩니다. 여러 개를 사용하는 경우, 이름을 전달하여 Jekyll-Scholar에게 어떤 참고 문헌을 렌더링해야 하는지 알릴 수 있습니다.
 
-Let's say you have two bibliographies stored in `_bibliography/books.bib` and
-`_bibliography/papers.bib`; you can include the bibliographies on your site
-by respectively calling `{% bibliography --file books %}` and
-`{% bibliography --file papers %}`. For example, you could have a file `references.md`
-with several reference lists:
+예를 들어, `_bibliography/books.bib` 및 `_bibliography/papers.bib`에 두 개의 참고 문헌이 저장되어 있는 경우, 각각 `{% bibliography --file books %}` 및 `{% bibliography --file papers %}`를 호출하여 사이트에 참고 문헌을 포함할 수 있습니다. 예를 들어, 여러 참조 목록이 있는 `references.md` 파일이 있을 수 있습니다:
 
     ---
     title: My References
     ---
-
+    
     {{ page.title }}
     ================
-
+    
     The default Bibliography
     ------------------------
-
+    
     {% bibliography %}
-
+    
     Secondary References
     --------------------
-
+    
     {% bibliography --file secondary %}
 
-Finally, the bibliography tag supports an optional filter parameter. This
-filter takes precedence over the global filter defined in your configuration.
+마지막으로, 참고 문헌 태그는 선택적 필터 매개변수를 지원합니다. 이 필터는 구성 파일에 정의된 전역 필터보다 우선합니다.
 
     {% bibliography --query @*[year=2013] %}
 
-The example above would print a bibliography of all entires published in
-the year 2013. Of course you can also combine the file and filter parameters
-like this:
+위 예제는 2013년에 발표된 모든 항목의 참고 문헌을 출력합니다. 물론 파일 및 필터 매개변수를 다음과 같이 결합할 수도 있습니다:
 
     {% bibliography -f secondary -q @*[year=2013] %}
 
-This would print the publications from 2013 of the bibliography at
-`_bibliography/secondary.bib`.
+이는 `_bibliography/secondary.bib`의 2013년 출판물 목록을 출력합니다.
 
-For more details about filters, see the corresponding section below or
-consult the [BibTeX-Ruby](https://github.com/inukshuk/bibtex-ruby)
-documentation.
+필터에 대한 자세한 내용은 아래 해당 섹션을 참조하거나 [BibTeX-Ruby](https://github.com/inukshuk/bibtex-ruby) 문서를 참조하세요.
 
-If you need to limit the number of entries in your bibliography, you can
-use the `--max` option:
+참고 문헌 항목 수를 제한해야 하는 경우, `--max` 옵션을 사용할 수 있습니다:
 
     {% bibliography --max 5 %}
 
-This would generate a bibliography containing only the first 5 entries
-of your bibliography (after query filters and sort options have been
-applied). Limiting entries is disabled if grouping is active.
+이는 참고 문헌의 첫 5개 항목만 포함하는 참고 문헌을 생성합니다(쿼리 필터 및 정렬 옵션이 적용된 후). 그룹화가 활성화된 경우 항목 제한이 비활성화됩니다.
 
-### Return number of publications in bibliography
+### 참고 문헌 항목 수 반환
 
-The `bibliography_count` returns the number of items that would be
-rendered in a bibliography. This tag accepts the same parameters as the
-`bibliography` tag.
+`bibliography_count`는 참고 문헌에 렌더링될 항목 수를 반환합니다. 이 태그는 `bibliography` 태그와 동일한 매개변수를 허용합니다.
 
     {% bibliography_count -f references --query @book[year <=2000] %}
 
-See [#186](https://github.com/inukshuk/jekyll-scholar/blob/master/features/186.feature)
-for further examples.
+추가 예제는 [#186](https://github.com/inukshuk/jekyll-scholar/blob/master/features/186.feature)을 참조하세요.
 
-### Bibliography Template
+### 참고 문헌 템플릿
 
-Your bibliography is always rendered as an ordered list. Additionally,
-each reference is wrapped in an HTML tag (`span` by default but you can
-change this using the `reference_tagname` setting) with the cite key
-as id. The reference string itself is governed by the rules in your
-CSL style but you can also customize the main template a little bit.
-By default, the template is `{{reference}}` – this renders only the
-reference tag. The template uses Liquid to render and, in
-addition to the reference, exposes the cite-key (as `key`), the
-entry's `type`, the `index` in the bibliography, and the link to
-file repository as `link`. Thus, you could
-customize the template in your configuration as follows:
+참고 문헌은 항상 순서가 지정된 목록으로 렌더링됩니다. 추가로, 각 참조는 HTML 태그(`기본값은 span이지만 `reference_tagname` 설정을 사용하여 변경할 수 있음)로 묶여 있으며, 인용 키가 ID로 사용됩니다. 참조 문자열 자체는 CSL 스타일의 규칙에 의해 결정되지만, 주요 템플릿을 조금 커스터마이징할 수도 있습니다. 기본적으로 템플릿은 `{{reference}}`입니다 – 이는 참조 태그만 렌더링합니다. 템플릿은 Liquid를 사용하여 렌더링되며, 참조 외에도 인용 키(`key`), 항목의 `type`, 참고 문헌의 `index`, 파일 저장소 링크(`link`)를 노출합니다. 따라서 구성에서 템플릿을 다음과 같이 커스터마이징할 수 있습니다:
 
     scholar:
       bibliography_template: <abbr>[{{key}}]</abbr>{{reference}}
 
-This would be processed into something like:
+이렇게 하면 다음과 같이 처리됩니다:
 
     <li><abbr>[ruby]</abbr><span id="ruby">Matsumoto, Y. (2008). <i>The Ruby Programming Language</i>. O&#8217;Reilly Media.</span></li>
 
-If you have more complex requirements, it quickly becomes tedious to
-have the template inside the configuration; for this reason, you can
-also put the bibliography template into your layouts directory. Jekyll-Scholar
-will load this template if the option set in your configuration matches
-an existing layout (without the file extension). That is to say, if you set:
+더 복잡한 요구 사항이 있는 경우, 템플릿이 구성 내에 있는 것이 번거로울 수 있습니다; 이러한 이유로 템플릿을 레이아웃 디렉터리에 넣을 수도 있습니다. Jekyll-Scholar는 구성에서 설정한 옵션이 기존 레이아웃(파일 확장자 제외)과 일치하면 이 템플릿을 로드합니다. 즉, 다음과 같이 설정하면:
 
     scholar:
       bibliography_template: bib
 
-And there is a file `_layouts/bib.html` (or with another extension) the
-contents of this file will be used as the template. Please note that it is
-important for this file to contain the YAML front matter! For example, this
-would be a more complex template file:
+그리고 `_layouts/bib.html`(또는 다른 확장자를 가진 파일)이 있으면 이 파일의 내용이 템플릿으로 사용됩니다. 이 파일에 YAML 프런트 매터가 포함되어야 한다는 점을 유의하세요! 예를 들어, 다음은 더 복잡한 템플릿 파일입니다:
 
     ---
     ---
     {{ reference }}
-
+    
     {% if entry.abstract %}
     <p>{{ entry.abstract }}</p>
     {% endif %}
-
+    
     <pre>{{ entry.bibtex }}</pre>
 
-You can also override the default bibliography template, by passing the
-`--template` or `-T` option parameter to the bibliography tag.
+템플릿을 구성에 포함시키는 대신, 각 참고 문헌 태그에 `--template` 또는 `-T` 옵션 매개변수를 전달하여 기본 참고 문헌 템플릿을 재정의할 수도 있습니다.
 
-### Citations
+### 인용
 
-If you want to reference books or papers from your bibliography in your blog
-posts, Jekyll-Scholar can help you, too. Simply use the `cite` tag with
-the appropriate key of the item you want to cite and Jekyll-Scholar will
-create a formatted citation reference for you. For a quick example, take
-following blog post:
+블로그 게시물에서 참고 문헌의 책이나 논문을 참조하고 싶다면, Jekyll-Scholar도 도와줄 수 있습니다. 인용하려는 항목의 적절한 키를 사용하여 `cite` 태그를 사용하면, Jekyll-Scholar가 서식을 갖춘 인용 참조를 생성합니다. 빠른 예제를 보려면 다음 블로그 게시물을 참고하세요:
 
     ---
     layout: default
     title: A Blogging Scholar
     ---
-
+    
     {{ page.title }}
     ================
-
+    
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -247,39 +196,33 @@ following blog post:
     velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
     cupidatat non proident, 'sunt in culpa qui officia deserunt mollit anim id est
     laborum' {% cite rabinowitz %}.
-
+    
     Duis 'aute irure dolor in reprehenderit in voluptate' {% cite breton:surrealism %}
     velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
     cupidatat non proident, 'sunt in culpa qui officia deserunt mollit anim id est
     laborum' {% cite rainey %}.
-
+    
     References
     ----------
-
+    
     {% bibliography %}
 
-Note that this will print your entire bibliography in the Reference section.
-If you would like to include only those entries you cited on the page, pass
-the `cited` option to the bibliography tag:
+이렇게 하면 참조 섹션에 전체 참고 문헌이 출력됩니다. 페이지에 인용된 항목만 포함하려면 `cited` 옵션을 참고 문헌 태그에 전달하세요:
 
     {% bibliography --cited %}
 
-By default, the `--cited` option will still sort your bibliography if you set
-the sort option. Especially for styles using citation numbers, this is usually
-not the desired behaviour. In such cases you can use `--cited_in_order` instead
-of `--cited` and your bibliography will contain all cited items in the order
-they were cited on the page.
+기본적으로, `--cited` 옵션은 정렬 옵션을 설정한 경우에도 여전히 참고 문헌을 정렬합니다. 인용 번호를 사용하는 스타일의 경우, 이는 보통 원하는 동작이 아닙니다. 이러한 경우, `--cited` 대신 `--cited_in_order`를 사용하면 페이지에 인용된 순서대로 인용된 항목이 포함된 참고 문헌을 얻을 수 있습니다.
 
-For longer quotes, Jekyll-Scholar provides a `quote` tag:
+더 긴 인용문에는 Jekyll-Scholar가 제공하는 `quote` 태그를 사용하세요:
 
     {% quote derrida:purveyor %}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
     sed do eiusmod tempor.
-
+    
     Lorem ipsum dolor sit amet, consectetur adipisicing.
     {% endquote %}
 
-For example, this could be rendered as:
+예를 들어, 이는 다음과 같이 렌더링될 수 있습니다:
 
     <blockquote>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,<br/>
@@ -290,53 +233,35 @@ For example, this could be rendered as:
       </cite>
     </blockquote>
 
-#### Multiple citation
+#### 다중 인용
 
-You can cite multiple items in a single citation by referencing all ids
-of the items you wish to quote separated by spaces. For example,
-`{% cite ruby microscope %}` would produce a cite tag like:
+단일 인용에서 여러 항목을 인용하려면 인용하려는 항목의 모든 ID를 공백으로 구분하여 참조합니다. 예를 들어, `{% cite ruby microscope %}`는 다음과 같은 인용 태그를 생성합니다:
 
-    <a href="#ruby">(Flanagan &amp; Matsumoto 2008; Shaughnessy 2013)</a>
+    <a href="#ruby">(Flanagan
 
-#### Citations when there's more than one bibliography
+ &amp; Matsumoto 2008; Shaughnessy 2013)</a>
 
-Let's return to the example above where you have two bibliographies stored
-in `_bibliography/books.bib` and `_bibliography/papers.bib`. We also must
-have the main bibliography, e.g., `_bibliography/references.bib`. As we
-know from above, it's possible to use bibliographies other than the main
-bibliography by calling `{% bibliography --file books %}` or
-`{% bibliography --file papers %}`.
+#### 여러 참고 문헌이 있는 경우의 인용
 
-Though what if we want to cite an article that's not in the main bibliography?
-We use the same approach as above; to cite an article in the `books.bib`
-bibliography, we simply call `{% cite ruby --file books %}`
+위 예에서처럼 `_bibliography/books.bib` 및 `_bibliography/papers.bib`에 두 개의 참고 문헌이 저장되어 있는 경우를 생각해 봅시다. 또한, 주 참고 문헌, 예를 들어 `_bibliography/references.bib`도 있어야 합니다. 위에서 알 수 있듯이 `{% bibliography --file books %}` 또는 `{% bibliography --file papers %}`를 호출하여 주 참고 문헌이 아닌 참고 문헌을 사용할 수 있습니다.
 
-#### Suppressing author names
+하지만 주 참고 문헌에 없는 기사를 인용하려면 어떻게 해야 할까요? 위와 같은 방법을 사용하여 `books.bib` 참고 문헌에서 기사를 인용하려면 `{% cite ruby --file books %}`를 호출하면 됩니다.
 
-Sometimes you want to suppress author names in a citation, because the
-name has already been mentioned in your text; for such cases Jekyll-Scholar
-provides the `--suppress_author` option (short form: `-A`):
-`...as Matz explains {% cite ruby -A -l 42 %}` would produce something
-like: `...as Matz explains (2008, p. 42)`.
+#### 저자 이름 억제
 
-#### Page numbers and locators
+때때로 텍스트에 이미 이름이 언급되었기 때문에 인용에서 저자 이름을 억제하고 싶을 때가 있습니다; 이러한 경우를 위해 Jekyll-Scholar는 `--suppress_author` 옵션(짧은 형식: `-A`)을 제공합니다. 예: `...as Matz explains {% cite ruby -A -l 42 %}`는 다음과 같이 생성됩니다: `...as Matz explains (2008, p. 42)`.
 
-If you would like to add page numbers or similar locators to your citation,
-use the `-l` or `--locator` option. For example, `{% cite ruby --locator 23-5 %}` would
-produce a citation like `(Matsumoto, 2008, pp. 23-5)`.
+#### 페이지 번호 및 로케이터
 
-When quoting multiple items (see above) you can add multiple locators after
-the list of ids. For example, `{% cite ruby microscope -l 2 -l 24 & 32 %}`.
+인용에 페이지 번호나 유사한 로케이터를 추가하려면 `-l` 또는 `--locator` 옵션을 사용하세요. 예를 들어, `{% cite ruby --locator 23-5 %}`는 `(Matsumoto, 2008, pp. 23-5)`와 같은 인용을 생성합니다.
 
-Page is the default locator, however, you can indicate the type of locator
-by adding a `-L` or `--label` option (one for each locator) for instance,
-`{% cite ruby microscope --label chapter --locator 3 -L figure -l 24 & 32 %}`
-produces something like: `(Matsumoto, 2008, chap. 3; Shaughnessy, 2013, figs. 24 & 32)`.
+여러 항목을 인용할 때(위 참조) 각 항목 ID 목록 뒤에 여러 로케이터를 추가할 수 있습니다. 예를 들어, `{% cite ruby microscope -l 2 -l 24 & 32 %}`.
 
-#### Displaying formatted references
+페이지는 기본 로케이터이지만, `-L` 또는 `--label` 옵션(로케이터별 하나씩)을 추가하여 로케이터 유형을 나타낼 수 있습니다. 예를 들어, `{% cite ruby microscope --label chapter --locator 3 -L figure -l 24 & 32 %}`는 다음과 같이 생성됩니다: `(Matsumoto, 2008, chap. 3; Shaughnessy, 2013, figs. 24 & 32)`.
 
-If you want to display the full formatted reference entry, you can use the
-`reference` tag. For example, given the following Bibtex entry,
+#### 서식이 지정된 참고 문헌 항목 표시
+
+서식이 지정된 전체 참고 문헌 항목을 표시하려면 `reference` 태그를 사용할 수 있습니다. 예를 들어, 다음과 같은 Bibtex 항목이 있는 경우,
 
     @book{ruby,
       title     = {The Ruby Programming Language},
@@ -345,42 +270,27 @@ If you want to display the full formatted reference entry, you can use the
       publisher = {O'Reilly Media}
     }
 
-using `{% reference ruby %}` anywhere in your page, it will print
-"Flanagan, D., & Matsumoto, Y. (2008). *The Ruby Programming Language.*.
-O'Reilly Media" (the exact result depends on your formatting style).
+페이지 어디에서든 `{% reference ruby %}`를 사용하면, "Flanagan, D., & Matsumoto, Y. (2008). *The Ruby Programming Language.* O'Reilly Media"와 같은 결과를 출력합니다(정확한 결과는 형식 스타일에 따라 다름).
 
-The `reference` tag accepts the same --file/-f parameter as the bibliography
-tag. This can be handy if you want to use a special BibTeX file as input for
-a specific page. As an example, the tag
+`reference` 태그는 참고 문헌 태그와 동일한 --file/-f 매개변수를 허용합니다. 이는 특정 페이지의 입력으로 특별한 BibTeX 파일을 사용하려는 경우에 유용할 수 있습니다. 예를 들어, 태그
 
     {% reference ruby --file /home/foo/bar.bib %}
 
-will attempt to read the key `ruby` from file `/home/foo/bar.bib`. It will not
-fallback to the default BibTeX file.
+는 파일 `/home/foo/bar.bib`에서 키 `ruby`를 읽으려고 시도합니다. 기본 BibTeX 파일로 돌아가지 않습니다.
 
-#### Citation pointing to another page in your site
-In some cases, you might want your citation to link to another page on your cite (ex. a separate works cited page). As a solution, add a relative path to your scholar configurations:
+#### 사이트 내 다른 페이지를 가리키는 인용
+때때로 인용이 사이트의 다른 페이지를 가리키기를 원할 수 있습니다(예: 별도의 참고 문헌 페이지). 솔루션으로 scholar 설정에 상대 경로를 추가합니다:
 
 ~~~ yaml
     scholar:
       relative: "/relative/path/file.html"
 ~~~
 
+#### 하나의 문서 내 여러 참고 문헌([multibib.sty](http://www.ctan.org/pkg/multibib)처럼)
 
-#### Multiple bibliographies within one document (like [multibib.sty](http://www.ctan.org/pkg/multibib))
+하나의 파일에 여러 `{% bibliography %}` 섹션이 있는 경우, Jekyll-Scholar는 동일한 `id` 속성을 가진 여러 목록을 생성합니다. 결과적으로 참조를 인용할 때 `id` 속성을 고유하게 해석할 수 없습니다. 브라우저는 항상 첫 번째 `id` 속성으로 이동합니다. 더욱이, 유효한 HTML은 고유한 `id` 속성을 요구합니다. 이러한 시나리오는 예를 들어 동일한 참조를 다른 블로그 게시물에서 인용하고, 이러한 게시물이 하나의 HTML 문서에 표시되는 경우 발생할 수 있습니다.
 
-When you have multiple `{% bibliography %}` sections in one file,
-Jekyll-Scholar will generate several lists containing the same
-publications that have the same `id` attributes. As a result, when you
-cite a reference the link to an `id` attribute cannot be resolved
-uniquely. Your browser will always take you take you to the first
-occurrence of the `id`. Moreover, valid HTML requires unique `id`
-attributes. This scenario may happen, for example, if you cite the
-same reference in different blog posts, and all of these posts are
-shown in one html document.
-
-As a solution, Jekyll-Scholar provides the `--prefix` tag. In your
-first post you might cite as
+해결책으로, Jekyll-Scholar는 `--prefix` 태그를 제공합니다. 첫 번째 게시물에서 다음과 같이 인용할 수 있습니다:
 
     ---
     title: Post 1
@@ -393,14 +303,13 @@ first post you might cite as
     dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
     non proident, 'sunt in culpa qui officia deserunt mollit anim id
     est laborum' {% cite rabinowitz --prefix post1 %}.
-
+    
     References
     ----------
-
+    
     {% bibliography --cited --prefix post1 %}
 
-
-For the second blog post you would cite as follows:
+두 번째 블로그 게시물에서는 다음과 같이 인용합니다:
 
     ---
     title: Post 2
@@ -410,58 +319,37 @@ For the second blog post you would cite as follows:
     dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
     non proident, 'sunt in culpa qui officia deserunt mollit anim id
     est laborum' {% cite rainey --prefix post2  %}.
-
+    
     References
     ----------
-
+    
     {% bibliography --cited --prefix post2 %}
 
-Even though both posts cite 'rabinowitz', both citations will be
-assigned unique identifiers linking to the respective references
-section, although both posts will be rendered into a single HTML
-document.
+두 게시물이 모두 'rabinowitz'를 인용하지만, 두 인용은 고유한 식별자로 할당되어 각각의 참조 섹션으로 링크됩니다. 두 게시물이 단일 HTML 문서로 렌더링되어도 마찬가지입니다.
 
-#### Add a custom class for the citation reference
-By default Jekyll Scholar generate a link with a class:
+#### 인용 참조에 사용자 정의 클래스 추가
+기본적으로 Jekyll Scholar는 클래스를 가진 링크를 생성합니다:
 
     <a href="#ruby" class="citation">(Derrida, 1975)</a>
 
-You can custom this class in your configuration:
+구성에서 이 클래스를 사용자 정의할 수 있습니다:
 
     scholar:
       cite_class: citation
 
-### File Repositories
+### 파일 저장소
 
-File repository support was added to Jekyll-Scholar starting at version
-2.0. Currently, if you have a folder in your site that contains PDF or
-Postscript files of your papers, you can use the configuration option
-`repository` to indicate this directory. When generating bibliographies,
-Jekyll-Scholar will look in that folder to see if it contains a filename
-matching each entry's BibTeX key: if it does, the path to that file
-will be exposed to the bibliography template as the `link` property.
+파일 저장소 지원은 Jekyll-Scholar 2.0 버전부터 추가되었습니다. 현재, 사이트에 논문의 PDF 또는 Postscript 파일이 포함된 폴더가 있는 경우, `repository` 구성 옵션을 사용하여 이 디렉터리를 지정할 수 있습니다. 참고 문헌을 생성할 때, Jekyll-Scholar는 해당 폴더에서 각 항목의 BibTeX 키와 일치하는 파일이 있는지 확인합니다. 파일이 있으면, 해당 파일의 경로가 참고 문헌 템플릿에 `link` 속성으로 노출됩니다.
 
-Since version 4.1.0 repositories are not limited to PDF and PS files.
-These files are mapped to the `links` property in your bibliography
-template. Here is an example of template that utilizes this feature
-to link to supporting material in a ZIP archive:
+버전 4.1.0부터 저장소는 PDF 및 PS 파일로 제한되지 않습니다. 이러한 파일은 참고 문헌 템플릿의 `links` 속성에 매핑됩니다. 지원 자료가 포함된 ZIP 아카이브에 링크하는 이 기능을 활용한 템플릿 예제는 다음과 같습니다:
 
     {{ reference }} [<a href="{{links.zip}}">Supporting Materials</a>]
 
-Since version 5.9.0, Jekyll-Scholar matches files which begin with a BibTeX key
-and are immediately followed by a delimiter (default: "."). All text proceeding
-the delimiter is treated as the file extension. For example, if two files named
-`key.pdf` and `key.slides.pdf` are found, `{{links.pdf}}` and
-`{{links['slides.pdf']}}` will both be populated.  You can use the configuration
-option `repository_file_delimiter` to change the default delimiter.
+버전 5.9.0부터 Jekyll-Scholar는 BibTeX 키로 시작하고 즉시 구분자가 뒤따르는 파일을 일치시킵니다(기본값: "."). 구분자 이후의 모든 텍스트는 파일 확장자로 처리됩니다. 예를 들어, `key.pdf` 및 `key.slides.pdf`라는 두 개의 파일이 발견되면, `{{links.pdf}}` 및 `{{links['slides.pdf']}}`가 모두 채워집니다. 기본 구분자를 변경하려면 `repository_file_delimiter` 구성 옵션을 사용할 수 있습니다.
 
+### 상세 페이지
 
-### Detail Pages
-
-If your layouts directory contains a layout file for bibliography details
-(the `details_layout` configuration options), Jekyll-Scholar will generate
-a details page for each entry in you main bibliography. That is to say, if
-your bibliography contains the following entry:
+레이아웃 디렉터리에 참고 문헌 세부 사항에 대한 레이아웃 파일이 있는 경우(`details_layout` 구성 옵션), Jekyll-Scholar는 기본 참고 문헌의 각 항목에 대한 세부 사항 페이지를 생성합니다. 즉, 참고 문헌에 다음 항목이 포함된 경우:
 
     @book{ruby,
       title     = {The Ruby Programming Language},
@@ -470,14 +358,14 @@ your bibliography contains the following entry:
       publisher = {O'Reilly Media}
     }
 
-Then a page 'bibliography/ruby.html' will be generated according to your
-details page layout. In the layout file, you have access to all fields
-of your BibTeX entry. Here is an example of a details page layout:
+'참고 문헌/ruby.html' 페이지는 세부 사항 페이지 레이아웃에 따라 생성됩니다. 레이아웃 파일에서는 BibTeX 항목의 모든 필드에 접근할 수 있습니다. 다음은 세부 사항 페이지 레이아웃의 예입니다:
 
     ---
     ---
     <html>
-    <head></head>
+    <head
+
+></head>
     <body>
       <h1>{{ page.entry.title }}</h1>
       <h2>{{ page.entry.author }}</h2>
@@ -485,101 +373,65 @@ of your BibTeX entry. Here is an example of a details page layout:
     </body>
     </html>
 
-When Jekyll-Scholar generates detail pages, it also adds links to each
-entry's detail page to the generated bibliography. You can alter the
-name of the link via the 'details_link' configuration option.
+Jekyll-Scholar가 세부 사항 페이지를 생성할 때, 생성된 참고 문헌에 각 항목의 세부 사항 페이지 링크도 추가합니다. 링크 이름은 'details_link' 구성 옵션을 통해 변경할 수 있습니다.
 
-Jekyll-Scholar also provides a Liquid tag for conveniently adding links
-to individual detail pages. For example, if you would like to add a simple
-link to one of the items in your bibliography on a page or in a blog post
-you can use the `cite_details` tag to generate the link. For this to work,
-you need to pass the BibTeX key of the element you want to reference to
-the tag and, optionally, provide a text for the link (the default text
-can be set via the 'details_link' configuration option).
+Jekyll-Scholar는 개별 세부 사항 페이지에 링크를 편리하게 추가하기 위한 Liquid 태그도 제공합니다. 예를 들어, 참고 문헌 항목 중 하나에 대한 간단한 링크를 페이지나 블로그 게시물에 추가하려면 `cite_details` 태그를 사용하여 링크를 생성할 수 있습니다. 이를 위해 인용하려는 항목의 BibTeX 키와 선택적으로 링크 텍스트를 태그에 전달합니다(기본 텍스트는 'details_link' 구성 옵션을 통해 설정할 수 있음).
 
     Duis 'aute irure dolor in reprehenderit in voluptate' velit esse cillum
-    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    dolore eu fugiat nulla pariatur. Excepteur sint occaecat non
     proident {% cite_details key --text Click Here For More Details %}.
-    
-Alternatively, you can use the `details_link` tag to get just the URL to 
-a details page. This can be used to link to details pages in markdown the 
-same way you would link to a blog post with Jekyll's `link` tag.
+
+대안으로 `details_link` 태그를 사용하여 세부 사항 페이지로의 URL만 얻을 수 있습니다. 이는 Jekyll의 `link` 태그를 사용하여 마크다운에서 블로그 게시물에 링크하는 것과 동일한 방식으로 세부 사항 페이지에 링크하는 데 사용할 수 있습니다.
 
     [See our blog post]({% link _posts/2020-01-01-research-post.md %}) 
     or [find more details]({% details_link key %}).
 
+### 참고 문헌 필터
 
-### Bibliography Filters
+기본적으로 Jekyll-Scholar는 참고 문헌을 생성할 때 메인 BibTeX 파일의 모든 항목을 포함합니다. 특정 기준과 일치하는 항목만 포함하려면, 'query' 구성 옵션을 조정할 수 있습니다. 예를 들어:
 
-By default, Jekyll-Scholar includes all entries in you main BibTeX file
-when generating bibliographies. If you want to include only those entries
-matching certain criteria, you can do so by adjusting the 'query'
-configuration option. For example:
+    query: "@book" #=> 책만 포함
+    query: "@article[year>=2003]" #=> 2003년 이후 발표된 논문만 포함
+    query: "@*[url]" #=> url 필드가 있는 모든 항목 포함
+    query: "@*[status!=review]" #=> 상태 필드가 'review'로 설정되지 않은 모든 항목 포함
+    query: "@book[year <= 1900 && author ^= Poe]" #=> 1900년 이전에 출판된 책 중 저자가 /Poe/와 일치하는 항목 포함
+    query: "!@book" #=> 책이 아닌 모든 항목 포함
 
-    query: "@book" #=> includes only books
-    query: "@article[year>=2003]" #=> includes only articles published 2003 or later
-    query: "@*[url]" #=> includes all entries with a url field
-    query: "@*[status!=review]" #=> includes all entries whose status field is not set to 'review'
-    query: "@book[year <= 1900 && author ^= Poe]" #=> Books published before 1900 where the author matches /Poe/
-    query: "!@book" #=> includes all entries with a type other than book
+이 쿼리 중 일부는 BibTeX-Ruby 2.3.0 이상 버전이 필요할 수 있습니다. 위에서 설명한 것처럼 각 참고 문헌 태그에서 개별적으로 구성의 쿼리 매개변수를 덮어쓸 수도 있습니다.
 
-Please note that some of these queries require BibTeX-Ruby 2.3.0 or
-later versions. You can also overwrite the configuration's query parameter
-in each bibliography tag individually as described above.
+기여
+----
 
-Contributing
-------------
-
-The Jekyll-Scholar source code is
-[hosted on GitHub](http://github.com/inukshuk/jekyll-scholar/).
-You can check out a copy of the latest code using Git:
+Jekyll-Scholar 소스 코드는 [GitHub에 호스팅](http://github.com/inukshuk/jekyll-scholar/)됩니다.
+최신 코드를 Git을 사용하여 확인할 수 있습니다:
 
     $ git clone https://github.com/inukshuk/jekyll-scholar.git
 
-To use this lasted version instead of the one provide by RubyGems,
-just add the line
+RubyGems에서 제공하는 버전 대신 이 최신 버전을 사용하려면, 다음 줄을 `_plugins/ext.rb`에서 'jekyll/scholar'을 요구하기 전에 추가하세요:
 
     $:.unshift '/full/path/to/the/repository/lib'
 
-to your `_plugins/ext.rb` before requiring 'jekyll/scholar', where
-`/full/path/to/the/repository` is the path to your local version
-of Jekyll-Scholar.
+여기서 `/full/path/to/the/repository`는 Jekyll-Scholar의 로컬 버전 경로입니다.
 
-When contributing to Jekyll-Scholar, please make sure to install
-all dependencies and run the cucumber features:
+Jekyll-Scholar에 기여할 때는 모든 종속성을 설치하고 cucumber 기능을 실행하는 것을 잊지 마세요:
 
     $ bundle install
     $ rake
 
-If you've found a bug or have a question, please open an issue on the
-[Jekyll-Scholar issue tracker](http://github.com/inukshuk/jekyll-scholar/issues).
-Or, for extra credit, clone the Jekyll-Scholar repository, write a failing
-example, fix the bug and submit a pull request.
+버그를 발견했거나 질문이 있는 경우, [Jekyll-Scholar 이슈 트래커](http://github.com/inukshuk/jekyll-scholar/issues)에 이슈를 등록하세요.
+또는, 추가로, Jekyll-Scholar 저장소를 클론하고, 실패하는 예제를 작성하고, 버그를 수정하고, 풀 리퀘스트를 제출하세요.
 
-Additionally, if we merged at least one of your pull request you will get
-write permissions to the repository if you want them.
+또한, 하나 이상의 풀 리퀘스트가 병합된 경우, 원하시면 저장소에 대한 쓰기 권한을 드립니다.
 
-License
+라이선스
 -------
 
-Jekyll-Scholar is distributed under the same license as Jekyll.
+Jekyll-Scholar는 Jekyll과 동일한 라이선스로 배포됩니다.
 
-Copyright (c) 2011-2015 [Sylvester Keil](http://sylvester.keil.or.at/)
+저작권 (c) 2011-2015 [Sylvester Keil](http://sylvester.keil.or.at/)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the 'Software'), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+본 소프트웨어 및 관련 문서 파일('소프트웨어')의 사본을 취득한 모든 사람에게 무료로 사용, 복사, 수정, 병합, 출판, 배포, 서브라이선스 및/또는 소프트웨어의 사본을 판매할 수 있는 권한을 포함하여, 소프트웨어를 제한 없이 취급할 수 있는 권한을 부여합니다. 단, 다음 조건을 충족해야 합니다:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+위의 저작권 고지 및 이 허가 고지는 소프트웨어의 모든 사본 또는 주요 부분에 포함되어야 합니다.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+소프트웨어는 '있는 그대로' 제공되며, 명시적이든 묵시적이든 상품성, 특정 목적에 대한 적합성 및 비침해에 대한 보증을 포함하되 이에 국한되지 않는 어떠한 종류의 보증도 제공하지 않습니다. 저자 또는 저작권 보유자는 소프트웨어 또는 소프트웨어의 사용 또는 기타 거래와 관련하여 발생하는 어떠한 청구, 손해 또는 기타 책임에 대해서도 책임을 지지 않습니다.
