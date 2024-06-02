@@ -369,9 +369,9 @@ Jekyll-Scholar를 로드하면 `.bib` 또는 `.bibtex` 확장자를 가진 모�
     </body>
     </html>
 
-Jekyll-Scholar가 세부 사항 페이지를 생성할 때, 생성된 참고 문헌에 각 항목의 세부 사항 페이지 링크도 추가합니다. 링크 이름은 'details_link' 구성 옵션을 통해 변경할 수 있습니다.
+Jekyll-Scholar가 세부 사항 페이지를 생성할 때, 생성된 참고 문헌에 각 항목의 세부 사항 페이지 링크도 추가합니다. 링크 이름은 `details_link` 구성 옵션을 통해 변경할 수 있습니다.
 
-Jekyll-Scholar는 개별 세부 사항 페이지에 링크를 편리하게 추가하기 위한 Liquid 태그도 제공합니다. 예를 들어, 참고 문헌 항목 중 하나에 대한 간단한 링크를 페이지나 블로그 게시물에 추가하려면 `cite_details` 태그를 사용하여 링크를 생성할 수 있습니다. 이를 위해 인용하려는 항목의 BibTeX 키와 선택적으로 링크 텍스트를 태그에 전달합니다(기본 텍스트는 'details_link' 구성 옵션을 통해 설정할 수 있음).
+Jekyll-Scholar는 개별 세부 사항 페이지에 링크를 편리하게 추가하기 위한 Liquid 태그도 제공합니다. 예를 들어, 참고 문헌 항목 중 하나에 대한 간단한 링크를 페이지나 블로그 게시물에 추가하려면 `cite_details` 태그를 사용하여 링크를 생성할 수 있습니다. 이를 위해 인용하려는 항목의 BibTeX 키와 선택적으로 링크 텍스트를 태그에 전달합니다(기본 텍스트는 `details_link` 구성 옵션을 통해 설정할 수 있음).
 
     Duis 'aute irure dolor in reprehenderit in voluptate' velit esse cillum
     dolore eu fugiat nulla pariatur. Excepteur sint occaecat non
