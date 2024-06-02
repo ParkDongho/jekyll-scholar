@@ -237,9 +237,7 @@ Jekyll-Scholar를 로드하면 `.bib` 또는 `.bibtex` 확장자를 가진 모�
 
 단일 인용에서 여러 항목을 인용하려면 인용하려는 항목의 모든 ID를 공백으로 구분하여 참조합니다. 예를 들어, `{% cite ruby microscope %}`는 다음과 같은 인용 태그를 생성합니다:
 
-    <a href="#ruby">(Flanagan
-
- &amp; Matsumoto 2008; Shaughnessy 2013)</a>
+    <a href="#ruby">(Flanagan &amp; Matsumoto 2008; Shaughnessy 2013)</a>
 
 #### 여러 참고 문헌이 있는 경우의 인용
 
