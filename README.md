@@ -361,9 +361,7 @@ Jekyll-Scholar를 로드하면 `.bib` 또는 `.bibtex` 확장자를 가진 모�
     ---
     ---
     <html>
-    <head
-
-></head>
+    <head></head>
     <body>
       <h1>{{ page.entry.title }}</h1>
       <h2>{{ page.entry.author }}</h2>
